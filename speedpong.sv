@@ -219,7 +219,7 @@ module ballCollisions(input  logic       clk, reset,
 	logic [9:0] padMidLim2 = paddle2y1 + 79;
 	logic [9:0] padDownMin2 = paddle2y1 + 80;
 	// state types
-	typedef enum logic {LU, LM, LD, RU, RM, RD} stateDir;
+	typedef enum logic [2:0] {LU, LM, LD, RU, RM, RD} stateDir;
 	stateDir currDir, nextDir;
 	// state register
 	always_ff@(posedge clk, posedge reset)
