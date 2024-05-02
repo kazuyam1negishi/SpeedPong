@@ -306,7 +306,7 @@ module ballCollisions(input  logic       clk, reset,
 				// Barrier collision
 				if(bally1 <= 10'd10) 									nextDir <= LD;
 				// Paddle collisions
-				else if(ballx1 == 10'd75 && (bally1 + 10'd15) >= paddle1y1) begin
+				else if(ballx1 <= 10'd75 && ballx1 >= 10'd50 && (bally1 + 10'd15) >= paddle1y1) begin
 					if((bally1 + 10'd15) <= (paddle1y1 + 40))			nextDir = RU;
 					else if((bally1 + 10'd15) <= (paddle1y1 + 80))		nextDir = RM;
 					else if((bally1 + 10'd15) <= paddle1y2)				nextDir = RD;
@@ -317,7 +317,7 @@ module ballCollisions(input  logic       clk, reset,
 			end
 			LM: begin
 				// Paddle collisions
-				if(ballx1 == 10'd75 && (bally1 + 10'd15) >= paddle1y1) begin
+				if(ballx1 <= 10'd75 && ballx1 >= 10'd50 && (bally1 + 10'd15) >= paddle1y1) begin
 					if((bally1 + 10'd15) <= (paddle1y1 + 40)) nextDir = RU;
 					else if((bally1 + 10'd15) <= (paddle1y1 + 80)) nextDir = RM;
 					else if((bally1 + 10'd15) <= paddle1y2) nextDir = RD;
@@ -329,9 +329,9 @@ module ballCollisions(input  logic       clk, reset,
 			end
 			LD: begin
 				// Barrier collision
-				if(bally1 >= 10'd470) nextDir <= LU;
+				if(bally2 >= 10'd470) nextDir <= LU;
 				// Paddle collisions
-				else if(ballx1 == 10'd75 && (bally1 + 10'd15) >= paddle1y1) begin
+				else if(ballx1 <= 10'd75 && ballx1 >= 10'd50 && (bally1 + 10'd15) >= paddle1y1) begin
 					if((bally1 + 10'd15) <= (paddle1y1 + 40)) nextDir = RU;
 					else if((bally1 + 10'd15) <= (paddle1y1 + 80)) nextDir = RM;
 					else if((bally1 + 10'd15) <= paddle1y2) nextDir = RD;
@@ -344,7 +344,7 @@ module ballCollisions(input  logic       clk, reset,
 				// Barrier collision
 				if(bally1 <= 10'd10) nextDir <= RD;
 				// Paddle collisions
-				else if(ballx2 == 10'd565 && (bally1 + 10'd15) >= paddle2y1) begin
+				else if(ballx1 >= 10'd535 && ballx1 <= 10'd560 && (bally1 + 10'd15) >= paddle2y1) begin
 					if((bally1 + 10'd15) <= (paddle2y1 + 40)) nextDir = LU;
 					else if((bally1 + 10'd15) <= (paddle2y1 + 80)) nextDir = LM;
 					else if((bally1 + 10'd15) <= paddle2y2) nextDir = LD;
@@ -355,7 +355,7 @@ module ballCollisions(input  logic       clk, reset,
 			end
 			RM: begin
 				// Paddle collisions
-				if(ballx2 == 10'd565 && (bally1 + 10'd15) >= paddle2y1) begin
+				if(ballx1 >= 10'd535 && ballx1 <= 10'd560 && (bally1 + 10'd15) >= paddle2y1) begin
 					if((bally1 + 10'd15) <= (paddle2y1 + 40)) nextDir = LU;
 					else if((bally1 + 10'd15) <= (paddle2y1 + 80))nextDir = LM;
 					else if((bally1 + 10'd15) <= paddle2y2) nextDir = LD;
@@ -366,9 +366,9 @@ module ballCollisions(input  logic       clk, reset,
 			end
 			RD: begin
 				// Barrier collision
-				if(bally1 == 10'd470) nextDir <= RU;
+				if(bally2 >= 10'd470) nextDir <= RU;
 				// Paddle collisions
-				else if(ballx2 >= 10'd565 && (bally1 + 10'd15) >= paddle2y1) begin
+				else if(ballx1 >= 10'd535 && ballx1 <= 10'd560 && (bally1 + 10'd15) >= paddle2y1) begin
 					if((bally1 + 10'd15) <= (paddle2y1 + 40)) nextDir = LU;
 					else if((bally1 + 10'd15) <= (paddle2y1 + 80)) nextDir = LM;
 					else if((bally1 + 10'd15) <= paddle2y2) nextDir = LD;
