@@ -4,6 +4,7 @@ Created by Jimmy Soto Agustin and Cristian Rodriguez Millan
 ## Abstract
 After playing Pong and reaction time games available on the internet, this is an attempt to bring them together. In order to win at Pong, you need to time your serve to keep the ball in play. This works in the same way, but you only get one chance to move your paddle! Time your move, or button press, properly and keep yourself in the game of SpeedPong!
 ## How to play
+![SpeedPong Controls](https://github.com/kazuyam1negishi/SpeedPong/blob/main/SpeedPong-Controls.png)
 - GPIO[0-1] - Player 1 Up and Down (Pong)
 - GPIO[2-3] - Player 2 Up and Down (Pong)
 - GPIO[1] - Player 1 Set Serve (SpeedPong)
