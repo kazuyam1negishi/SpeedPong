@@ -6,6 +6,7 @@ module vgaGame(input  logic clk, reset,
                input  logic [9:0] p1y1, p1y2,
                input  logic [9:0] p2y1, p2y2,
 	       input  logic [9:0] ballx1, ballx2,
+	       input  logic [9:0] bally1, bally2,
                output logic vgaclk,          // 25.175 MHz VGA clock 
                output logic hsync, vsync, 
                output logic sync_b, blank_b, // to monitor & DAC 
@@ -32,7 +33,7 @@ module vgaGame(input  logic clk, reset,
   // user-defined module to determine pixel color
   // now used in unison with speedpong to display,
   // move, and manage the game elements.
-  videoGen videoGen(x, y, p1y1, p1y2, p2y1, p2y2, ballx1, ballx2, r, g, b); 
+  videoGen videoGen(x, y, p1y1, p1y2, p2y1, p2y2, ballx1, ballx2, bally1, bally2, r, g, b); 
   
 endmodule 
 
@@ -86,16 +87,17 @@ module videoGen(input  logic [9:0] x, y,
                 input  logic [9:0] p1y1, p1y2,
                 input  logic [9:0] p2y1, p2y2,
 		input  logic [9:0] ballx1, ballx2,
+		input  logic [9:0] bally1, bally2,
                 output logic [7:0] r, g, b); 
   // Used to determine where to draw to screen
   logic inp1, inp2, inball, inbartop, inbarbot; 
-  // 
+  // barriers for ball
   rectgen barrierTop(x, y, 10'd1, 10'd1, 10'd640, 10'd10, inbartop);
   rectgen barrierBottom(x, y, 10'd1, 10'd471, 10'd640, 10'd480, inbarbot);
   // Game elements  
   rectgen paddle1(x, y, 10'd50, p1y1, 10'd75, p1y2, inp1); 
   rectgen paddle2(x, y, 10'd565, p2y1, 10'd590, p2y2, inp2);
-  rectgen ball(x, y, ballx1, 10'd225, ballx2, 10'd255, inball);
+  rectgen ball(x, y, ballx1, bally1, ballx2, bally2, inball);
   // Make all the game elements a single color.
   assign {r, g, b} = (inball) || (inp1) || (inp2) || (inbartop) || (inbarbot) ? {8'hFF, 8'hFF, 8'hFF} : {8'h00, 8'h00, 8'h00};
 endmodule
