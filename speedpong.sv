@@ -52,7 +52,7 @@ module speedPong(input  logic clk, sysReset, gameReset, speedEnable,      // clo
 	// to allow movement in y direction!
     ball ball(padClk, gameReset, direction, ballx1, ballx2, bally1, bally2);
 	// Ball FSM for handling collisions and new direction
-    ballCollisions ballCollisions(padClk, gameReset, ballx1, bally1, ballx2, bally2, paddle1y1, paddle1y2, paddle2y1, paddle2y2, direction);
+    ballCollisions ballCollisions(padClk, gameReset, speedEnable, ballx1, bally1, ballx2, bally2, paddle1y1, paddle1y2, paddle2y1, paddle2y2, direction);
 	// Score keeper and display
     scoreDisplay playerScoreDisp(clk, gameReset, p1score, p2score, seg0, seg7);
     scoreKeeper playerScoreUpdate(scrClk, gameReset, ballx1, ballx2, p1score, p2score);
@@ -273,7 +273,7 @@ endmodule
 // This module handles the collisions
 // based on the current position of the ball
 // relative to the paddles/barriers.
-module ballCollisions(input  logic       clk, reset,
+module ballCollisions(input  logic       clk, reset, speedEn,
 					  input  logic [9:0] ballx1, bally1, ballx2, bally2,
 					  input  logic [9:0] paddle1y1, paddle1y2,
 					  input  logic [9:0] paddle2y1, paddle2y2,
@@ -319,6 +319,8 @@ module ballCollisions(input  logic       clk, reset,
 				// Paddle collisions
 				if(ballx1 <= 10'd75 && ballx1 >= 10'd50 && (bally1 + 10'd15) >= paddle1y1) begin
 					if((bally1 + 10'd15) <= (paddle1y1 + 40)) nextDir = RU;
+					// SpeedPong collisions to avoid stalemates
+					else if((bally1 + 10'd15) <= (paddle1y1 + 80) && speedEn) nextDir = RU
 					else if((bally1 + 10'd15) <= (paddle1y1 + 80)) nextDir = RM;
 					else if((bally1 + 10'd15) <= paddle1y2) nextDir = RD;
 					else nextDir = LM;
@@ -356,9 +358,11 @@ module ballCollisions(input  logic       clk, reset,
 			RM: begin
 				// Paddle collisions
 				if(ballx1 >= 10'd535 && ballx1 <= 10'd560 && (bally1 + 10'd15) >= paddle2y1) begin
-					if((bally1 + 10'd15) <= (paddle2y1 + 40)) nextDir = LU;
-					else if((bally1 + 10'd15) <= (paddle2y1 + 80))nextDir = LM;
-					else if((bally1 + 10'd15) <= paddle2y2) nextDir = LD;
+					if((bally1 + 10'd15) <= (paddle2y1 + 40)) 					nextDir = LU;
+					// SpeedPong collisions to avoid stalemates
+					else if((bally1 + 10'd15) <= (paddle1y1 + 80) && speedEn) 	nextDir = LD;
+					else if((bally1 + 10'd15) <= (paddle2y1 + 80))				nextDir = LM;
+					else if((bally1 + 10'd15) <= paddle2y2) 					nextDir = LD;
 					else nextDir = RM;
 				end
 				// No collision
